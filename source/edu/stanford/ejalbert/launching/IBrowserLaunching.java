@@ -33,20 +33,21 @@ import edu.stanford.ejalbert.exception.UnsupportedOperatingSystemException;
  * @author Markus Gebhard
  */
 public interface IBrowserLaunching {
+
     /**
      * Key to system property containing name of users
      * preferred browser.
      */
-    public static final String BROWSER_SYSTEM_PROPERTY =
-            "edu.stanford.ejalbert.preferred.browser";
+    public static final String BROWSER_SYSTEM_PROPERTY
+                               = "edu.stanford.ejalbert.preferred.browser";
     /**
      * Key to system property that controls how browsers are discovered
      * when running on a Windows O/S.
      * <p>
      * The values are registry and disk.
      */
-    public static final String WINDOWS_BROWSER_DISC_POLICY_PROPERTY =
-            "win.browser.disc.policy";
+    public static final String WINDOWS_BROWSER_DISC_POLICY_PROPERTY
+                               = "win.browser.disc.policy";
     /**
      * Value associated with WINDOWS_BROWSER_DISC_POLICY_PROPERTY.
      */
@@ -105,8 +106,8 @@ public interface IBrowserLaunching {
      */
     public void openUrl(String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException;
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException;
 
     /**
      * Allows user to target a specific browser. The names of
@@ -125,8 +126,8 @@ public interface IBrowserLaunching {
     public void openUrl(String browser,
                         String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException;
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException;
 
     /**
      * Allows user to target several browsers. The names of
@@ -147,8 +148,8 @@ public interface IBrowserLaunching {
     public void openUrl(List browsers,
                         String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException;
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException;
 
     /**
      * Returns a list of browsers to be used for browser targetting.

@@ -27,6 +27,7 @@ package edu.stanford.ejalbert.launching.utils;
  * @version 1.0
  */
 public class LaunchingUtils {
+
     private static final String REPLACE_BROWSER = "<browser>";
     private static final String REPLACE_URL = "<url>";
 
@@ -34,11 +35,11 @@ public class LaunchingUtils {
                                      String browserArg,
                                      String urlArg) {
         // replace <browser> placeholder if browserArg passed
-        if(browserArg != null) {
+        if (browserArg != null) {
             commands = commands.replaceAll(REPLACE_BROWSER, browserArg);
         }
         // replace <url> placeholder if urlArg passed
-        if(urlArg != null) {
+        if (urlArg != null) {
             int urlPos = commands.indexOf(REPLACE_URL);
             StringBuffer buf = new StringBuffer();
             while (urlPos > 0) {

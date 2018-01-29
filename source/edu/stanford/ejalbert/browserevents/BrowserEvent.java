@@ -30,6 +30,7 @@ import edu.stanford.ejalbert.launching.IBrowserEvent;
  */
 public class BrowserEvent
         implements IBrowserEvent {
+
     private final int eventId; // in ctor
     private final String userName; // in ctor
     private final String browserName; // in ctor

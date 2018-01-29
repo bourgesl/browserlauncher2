@@ -37,6 +37,7 @@ package net.sf.wraplog;
  */
 public class LoggingException
         extends RuntimeException {
+
     public LoggingException(String newMessage, Throwable cause) {
         super(newMessage);
         if (cause != null) {

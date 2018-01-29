@@ -27,10 +27,12 @@ package edu.stanford.ejalbert.launching;
  * @version 1.0
  */
 public interface IBrowserEventCallBack {
+
     public void fireBrowserEvent(int id,
                                  int attemptId,
                                  Process proc,
                                  String browserName,
                                  String urlLaunched);
+
     public int getOpenAttemptId();
 }

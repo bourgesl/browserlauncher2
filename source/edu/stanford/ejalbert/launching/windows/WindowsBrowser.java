@@ -31,6 +31,7 @@ import edu.stanford.ejalbert.launching.BrowserDescription;
  */
 public class WindowsBrowser
         implements BrowserDescription {
+
     /**
      * The name for the browser suitable for display to a user.
      */
@@ -70,7 +71,7 @@ public class WindowsBrowser
     WindowsBrowser(String delimChar,
                    String configInfo) {
         // we should always have four items in the config string
-        String[] configItems = configInfo.split(delimChar,4);
+        String[] configItems = configInfo.split(delimChar, 4);
         this.displayName = configItems[0];
         this.exe = configItems[1];
         this.forceWindowArgs = configItems[2];
@@ -90,7 +91,7 @@ public class WindowsBrowser
         buf.append("; SubDir name=");
         buf.append(subDirName);
         buf.append("; Path to exe=");
-        if(pathToExe != null) {
+        if (pathToExe != null) {
             buf.append(pathToExe);
         }
         buf.append("; Exe name=");
@@ -100,7 +101,7 @@ public class WindowsBrowser
 
     void setPathToExe(String path) {
         pathToExe = path;
-        if(!pathToExe.endsWith("\\")) {
+        if (!pathToExe.endsWith("\\")) {
             StringBuffer buf = new StringBuffer(pathToExe.length() + 2);
             buf.append(pathToExe);
             buf.append('\\');
@@ -117,7 +118,6 @@ public class WindowsBrowser
     }
 
     /* -------------------- from BrowserDescription ---------------------- */
-
     /**
      * Returns the display name for the browser.
      *

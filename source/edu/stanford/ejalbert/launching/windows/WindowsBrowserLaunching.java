@@ -56,11 +56,12 @@ import edu.stanford.ejalbert.launching.IBrowserEventCallBack;
  */
 public class WindowsBrowserLaunching
         implements IBrowserLaunching {
+
     /**
      * windows configuration file -- info on commands and browsers
      */
-    private static final String CONFIGFILE_WINDOWS =
-            "/edu/stanford/ejalbert/launching/windows/windowsConfig.properties";
+    private static final String CONFIGFILE_WINDOWS
+                                = "/edu/stanford/ejalbert/launching/windows/windowsConfig.properties";
     /**
      * config file key for Windows Vista
      */
@@ -81,10 +82,11 @@ public class WindowsBrowserLaunching
      * collects valid config keys for key validation
      */
     private static final String[] WIN_KEYS = {
-                                             WINKEY_WIN2000,
-                                             WINKEY_WIN9X,
-                                             WINKEY_WINNT,
-                                             WINKEY_WINVISTA};
+        WINKEY_WIN2000,
+        WINKEY_WIN9X,
+        WINKEY_WINNT,
+        WINKEY_WINVISTA};
+
     static {
         Arrays.sort(WIN_KEYS);
     }
@@ -143,7 +145,6 @@ public class WindowsBrowserLaunching
     //private static String[] regeditQueries = {
     //                                         "\"HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\""};
     //"\"HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\""};
-
     /**
      * Checks that the windows key is valid.
      *
@@ -225,7 +226,7 @@ public class WindowsBrowserLaunching
             for (int idx = 0; idx < drives.length && progFilesPath == null; idx++) {
                 String path = MessageFormat.format(
                         programFilesFolderTemplate,
-                        new Object[] {drives[idx]});
+                        new Object[]{drives[idx]});
                 File pfPath = new File(path);
                 logger.debug(path);
                 logger.debug(pfPath.getPath());
@@ -267,31 +268,31 @@ public class WindowsBrowserLaunching
             }
             // iterate over subdirs and compare to map entries
             for (int idx = 0; idx < subDirsCnt && !tmpBrowsersToCheck.isEmpty();
-                           idx++) {
+                    idx++) {
                 if (dirNameToBrowser.containsKey(subDirs[idx].getName())) {
                     WindowsBrowser wBrowser = (WindowsBrowser) dirNameToBrowser.
-                                              get(
-                            subDirs[idx].getName());
+                            get(
+                                    subDirs[idx].getName());
                     // need to search folder and sub-folders for exe to find
                     // the full path
-                    String exeName = wBrowser.getBrowserApplicationName() +
-                                     ".exe";
+                    String exeName = wBrowser.getBrowserApplicationName()
+                            + ".exe";
                     File fullPathToExe = findExeFilePath(
                             subDirs[idx],
                             exeName);
                     if (fullPathToExe != null) {
-                        logger.debug("Adding browser " +
-                                     wBrowser.getBrowserDisplayName() +
-                                     " to available list.");
+                        logger.debug("Adding browser "
+                                + wBrowser.getBrowserDisplayName()
+                                + " to available list.");
                         wBrowser.setPathToExe(fullPathToExe.getPath());
                         logger.debug(wBrowser.getPathToExe());
                         // adding display and exe for backward compatibility and
                         // ease of use if someone passes in the name of an exe
                         browsersAvailable.put(wBrowser.getBrowserDisplayName(),
-                                              wBrowser);
+                                wBrowser);
                         browsersAvailable.put(wBrowser.
-                                              getBrowserApplicationName(),
-                                              wBrowser);
+                                getBrowserApplicationName(),
+                                wBrowser);
                         tmpBrowsersToCheck.remove(wBrowser);
                     }
                 }
@@ -328,22 +329,22 @@ public class WindowsBrowserLaunching
      */
     private static final class DirFileFilter
             implements FileFilter {
+
         public boolean accept(File pathname) {
             return pathname.isDirectory();
         }
     }
-
 
     /**
      * Filter used to only find exe files.
      */
     private static final class ExeFileNameFilter
             implements FilenameFilter {
+
         public boolean accept(File dir, String name) {
             return name.toLowerCase().endsWith(".exe");
         }
     }
-
 
     private Map getExeNamesToBrowsers(List tempBrowsersToCheck) {
         Map exeNamesToBrowsers = new HashMap();
@@ -351,7 +352,7 @@ public class WindowsBrowserLaunching
         while (iter.hasNext()) {
             WindowsBrowser winBrowser = (WindowsBrowser) iter.next();
             String exeName = winBrowser.getBrowserApplicationName().
-                             toLowerCase() + ".exe";
+                    toLowerCase() + ".exe";
             exeNamesToBrowsers.put(exeName, winBrowser);
         }
         return exeNamesToBrowsers;
@@ -369,20 +370,19 @@ public class WindowsBrowserLaunching
         List values = regor.listValueNames(key2);
         //boolean fndPath = false;
         for (int x = 0;
-                     values != null && x < values.size() && winBrowser == null;
-                     x++) {
+                values != null && x < values.size() && winBrowser == null;
+                x++) {
             byte[] buf = regor.readValue(
                     key2,
                     (String) values.get(x));
-            String path = buf != null ? Regor.parseValue(buf) :
-                          "";
+            String path = buf != null ? Regor.parseValue(buf)
+                    : "";
             String lpath = path.toLowerCase();
             if (lpath.endsWith(exeKey)) {
-                winBrowser = (WindowsBrowser)
-                             exesToBrowserObjs.get(exeKey);
+                winBrowser = (WindowsBrowser) exesToBrowserObjs.get(exeKey);
                 // get path to exe and set it in winBrowser object
-                StringTokenizer tokenizer =
-                        new StringTokenizer(path, "\\", false);
+                StringTokenizer tokenizer
+                                = new StringTokenizer(path, "\\", false);
                 StringBuffer pathBuf = new StringBuffer();
                 int tokCnt = tokenizer.countTokens();
                 // we want to ignore the last token
@@ -414,10 +414,10 @@ public class WindowsBrowserLaunching
             Map exesToBrowserObjs = getExeNamesToBrowsers(tempBrowsersToCheck);
             // access and look in registry
             Regor regor = new Regor();
-            String subKeyName =
-                    "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths";
+            String subKeyName
+                   = "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths";
             int key = regor.openKey(Regor.HKEY_LOCAL_MACHINE,
-                                    subKeyName);
+                    subKeyName);
             if (key > -1) {
                 List keys = regor.listKeys(key);
                 Collections.sort(keys, String.CASE_INSENSITIVE_ORDER);
@@ -437,27 +437,26 @@ public class WindowsBrowserLaunching
                                 exesToBrowserObjs);
                         if (winBrowser != null) {
                             if (logger.isDebugEnabled()) {
-                                logger.debug("Adding browser " +
-                                             winBrowser.
-                                             getBrowserDisplayName() +
-                                             " to available list.");
+                                logger.debug("Adding browser "
+                                        + winBrowser.
+                                                getBrowserDisplayName()
+                                        + " to available list.");
                                 logger.debug(winBrowser.getPathToExe());
                             }
                             // adding display and exe for backward compatibility and
                             // ease of use if someone passes in the name of an exe
                             browsersAvailable.put(winBrowser.
-                                                  getBrowserDisplayName(),
-                                                  winBrowser);
+                                    getBrowserDisplayName(),
+                                    winBrowser);
                             browsersAvailable.put(winBrowser.
-                                                  getBrowserApplicationName(),
-                                                  winBrowser);
+                                    getBrowserApplicationName(),
+                                    winBrowser);
                             tempBrowsersToCheck.remove(winBrowser);
                         }
                     }
                 }
             }
-        }
-        catch (RegistryErrorException ex) {
+        } catch (RegistryErrorException ex) {
             logger.error("problem accessing registry", ex);
         }
         return browsersAvailable;
@@ -558,8 +557,7 @@ public class WindowsBrowserLaunching
             // check to make it browser specific.
             int exitValue = process.exitValue();
             success = exitValue == 0 || exitValue == 1;
-        }
-        // Runtimes may throw InterruptedException
+        } // Runtimes may throw InterruptedException
         // want to catch every possible exception and wrap it
         catch (Exception e) {
             throw new BrowserLaunchingExecutionException(e);
@@ -568,7 +566,6 @@ public class WindowsBrowserLaunching
     }
 
     /* ----------------- from IBrowserLaunching -------------------- */
-
     /**
      * Registers the browser event call back with the launcher object.
      *
@@ -621,7 +618,7 @@ public class WindowsBrowserLaunching
             String[] winConfigItems = windowsConfigStr.split(sepChar);
             commandsDefaultBrowser = winConfigItems[0];
             commandsTargettedBrowser = winConfigItems[1];
-            Boolean boolVal = new Boolean(winConfigItems[2]);
+            Boolean boolVal = Boolean.valueOf(winConfigItems[2]);
             useRegistry = boolVal.booleanValue();
             // check for override of useRegistry from system prop
             // need to explicitly check BOTH values to filter out
@@ -632,14 +629,13 @@ public class WindowsBrowserLaunching
             if (IBrowserLaunching.WINDOWS_BROWSER_DISC_POLICY_DISK.equals(
                     propValue)) {
                 useRegistry = false;
-            }
-            else if (IBrowserLaunching.WINDOWS_BROWSER_DISC_POLICY_REGISTRY.
-                     equals(propValue)) {
+            } else if (IBrowserLaunching.WINDOWS_BROWSER_DISC_POLICY_REGISTRY.
+                    equals(propValue)) {
                 useRegistry = true;
             }
             if (logger.isDebugEnabled()) {
-                logger.debug("Browser discovery policy property value=" +
-                             (propValue == null ? "null" : propValue));
+                logger.debug("Browser discovery policy property value="
+                        + (propValue == null ? "null" : propValue));
                 logger.debug("useRegistry=" + Boolean.toString(useRegistry));
             }
             // get info for checking Program Files folder
@@ -651,8 +647,7 @@ public class WindowsBrowserLaunching
                     null);
             // set brwosersToCheck to a non-modifiable list
             browsersToCheck = Collections.unmodifiableList(browsersToCheck);
-        }
-        catch (IOException ioex) {
+        } catch (IOException ioex) {
             throw new BrowserLaunchingInitializingException(ioex);
         }
     }
@@ -667,8 +662,8 @@ public class WindowsBrowserLaunching
      */
     public void openUrl(String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
         try {
             logger.info(urlString);
             String protocol = getProtocol(urlString);
@@ -692,7 +687,7 @@ public class WindowsBrowserLaunching
             }
             if (!successfullSystemPropLaunch) {
                 String[] args = getCommandArgs(protocol,
-                                               urlString);
+                        urlString);
                 if (logger.isDebugEnabled()) {
                     logger.debug(getArrayAsString(args));
                 }
@@ -702,8 +697,7 @@ public class WindowsBrowserLaunching
                 process.waitFor();
                 process.exitValue();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.error("fatal exception", e);
             throw new BrowserLaunchingExecutionException(e);
         }
@@ -724,29 +718,26 @@ public class WindowsBrowserLaunching
     public void openUrl(String browser,
                         String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
-        if (IBrowserLaunching.BROWSER_DEFAULT.equals(browser) ||
-            browser == null) {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
+        if (IBrowserLaunching.BROWSER_DEFAULT.equals(browser)
+                || browser == null) {
             logger.info(
                     "default or null browser target; falling through to non-targetted openUrl");
             openUrl(urlString);
-        }
-        else {
+        } else {
             Map browserMap = getBrowserMap();
             WindowsBrowser winBrowser = (WindowsBrowser) browserMap.get(browser);
             if (winBrowser == null) {
-                logger.info("the available browsers list does not contain: " +
-                            browser);
+                logger.info("the available browsers list does not contain: "
+                        + browser);
                 logger.info("falling through to non-targetted openUrl");
                 openUrl(urlString);
-            }
-            else {
+            } else {
                 String protocol = null;
                 try {
                     protocol = getProtocol(urlString);
-                }
-                catch (MalformedURLException malrulex) {
+                } catch (MalformedURLException malrulex) {
                     throw new BrowserLaunchingExecutionException(malrulex);
                 }
                 boolean successfullLaunch = openUrlWithBrowser(
@@ -780,18 +771,16 @@ public class WindowsBrowserLaunching
     public void openUrl(List browsers,
                         String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
         if (browsers == null || browsers.isEmpty()) {
             logger.debug("falling through to non-targetted openUrl");
             openUrl(urlString);
-        }
-        else {
+        } else {
             String protocol = null;
             try {
                 protocol = getProtocol(urlString);
-            }
-            catch (MalformedURLException malrulex) {
+            } catch (MalformedURLException malrulex) {
                 throw new BrowserLaunchingExecutionException(malrulex);
             }
             Map browserMap = getBrowserMap();
@@ -802,8 +791,8 @@ public class WindowsBrowserLaunching
                         iter.next());
                 if (winBrowser != null) {
                     success = openUrlWithBrowser(winBrowser,
-                                                 protocol,
-                                                 urlString);
+                            protocol,
+                            urlString);
                 }
             }
             if (!success) {
@@ -813,7 +802,6 @@ public class WindowsBrowserLaunching
             }
         }
     }
-
 
     /**
      * Returns a list of browsers to be used for browser targetting.

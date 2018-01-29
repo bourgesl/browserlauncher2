@@ -42,39 +42,36 @@ public class MacOs3_0BrowserLaunching
         //TODO Oct 10, 2003 (Markus Gebhard): Can anyone explain what this code is for??
         try {
             Class linker = Class.forName("com.apple.mrj.jdirect.Linker");
-            Constructor constructor = linker.getConstructor(new Class[] {Class.class});
-            Object linkage = constructor.newInstance(new Object[] {
-                    BrowserLauncher.class});
-        }
-        catch (Exception e) {
+            Constructor constructor = linker.getConstructor(new Class[]{Class.class});
+            Object linkage = constructor.newInstance(new Object[]{
+                BrowserLauncher.class});
+        } catch (Exception e) {
             throw new BrowserLaunchingInitializingException(e);
         }
     }
 
     public void openUrl(String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
         int[] instance = new int[1];
         int result = ICStart(instance, 0);
         if (result == 0) {
-            int[] selectionStart = new int[] {0};
+            int[] selectionStart = new int[]{0};
             byte[] urlBytes = urlString.getBytes();
-            int[] selectionEnd = new int[] {urlBytes.length};
-            result =
-                    ICLaunchURL(instance[0], new byte[] {0}, urlBytes,
-                                urlBytes.length, selectionStart, selectionEnd);
+            int[] selectionEnd = new int[]{urlBytes.length};
+            result
+            = ICLaunchURL(instance[0], new byte[]{0}, urlBytes,
+                            urlBytes.length, selectionStart, selectionEnd);
             if (result == 0) {
                 // Ignore the return value; the URL was launched successfully
                 // regardless of what happens here.
                 ICStop(instance);
-            }
-            else {
+            } else {
                 throw new BrowserLaunchingExecutionException(
                         "Unable to launch URL: " + result);
             }
-        }
-        else {
+        } else {
             throw new BrowserLaunchingExecutionException(
                     "Unable to create an Internet Config instance: " + result);
         }

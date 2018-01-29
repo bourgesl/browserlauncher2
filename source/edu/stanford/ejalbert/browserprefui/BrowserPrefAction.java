@@ -37,6 +37,7 @@ import edu.stanford.ejalbert.BrowserLauncher;
  */
 public class BrowserPrefAction
         extends AbstractAction {
+
     private final BrowserLauncher browserLauncher; // in ctor
     private final JFrame appFrame; // in ctor
 
@@ -44,7 +45,7 @@ public class BrowserPrefAction
                              BrowserLauncher browserLauncher,
                              JFrame appFrame) {
         super(name);
-        if(browserLauncher == null) {
+        if (browserLauncher == null) {
             throw new IllegalArgumentException("browserLauncher cannot be null");
         }
         this.browserLauncher = browserLauncher;
@@ -56,7 +57,7 @@ public class BrowserPrefAction
                              BrowserLauncher browserLauncher,
                              JFrame appFrame) {
         super(name, icon);
-        if(browserLauncher == null) {
+        if (browserLauncher == null) {
             throw new IllegalArgumentException("browserLauncher cannot be null");
         }
         this.browserLauncher = browserLauncher;
@@ -64,7 +65,6 @@ public class BrowserPrefAction
     }
 
     /* --------------------------- from Action --------------------------- */
-
     /**
      * Launches a browser preferences dialog and sets the system
      * property BrowserLauncher.BROWSER_SYSTEM_PROPERTY with
@@ -85,16 +85,15 @@ public class BrowserPrefAction
                             browserLauncher);
                     dlg.setLocationRelativeTo(appFrame);
                     dlg.pack();
-                    dlg.setSize(275,200);
+                    dlg.setSize(275, 200);
                     dlg.setVisible(true);
                     String prefBrowser = dlg.getSelectedBrowser();
-                    if(prefBrowser != null) {
+                    if (prefBrowser != null) {
                         System.setProperty(
                                 BrowserLauncher.BROWSER_SYSTEM_PROPERTY,
                                 prefBrowser);
                     }
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     browserLauncher.getLogger().error("problem getting/setting browser pref", ex);
                 }
             }

@@ -35,6 +35,7 @@ import edu.stanford.ejalbert.launching.IBrowserLaunching;
  */
 public class MacOs3_1BrowserLaunching
         extends MacOsBrowserLaunching {
+
     private Method openURL;
 
     public void initialize()
@@ -43,21 +44,19 @@ public class MacOs3_1BrowserLaunching
             Class mrjFileUtilsClass = Class.forName(
                     "com.apple.mrj.MRJFileUtils");
             openURL = mrjFileUtilsClass.getDeclaredMethod("openURL",
-                    new Class[] {String.class});
-        }
-        catch (Exception e) {
+                    new Class[]{String.class});
+        } catch (Exception e) {
             throw new BrowserLaunchingInitializingException(e);
         }
     }
 
     public void openUrl(String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
         try {
-            openURL.invoke(null, new Object[] {urlString});
-        }
-        catch (Exception e) {
+            openURL.invoke(null, new Object[]{urlString});
+        } catch (Exception e) {
             throw new BrowserLaunchingExecutionException(e);
         }
     }

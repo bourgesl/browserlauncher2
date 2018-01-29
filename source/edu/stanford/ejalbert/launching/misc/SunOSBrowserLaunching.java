@@ -36,11 +36,12 @@ import net.sf.wraplog.AbstractLogger;
  */
 public class SunOSBrowserLaunching
         extends UnixNetscapeBrowserLaunching {
+
     /**
      * config file for SunOS.
      */
-    public static final String CONFIGFILE_SUNOS =
-            "/edu/stanford/ejalbert/launching/misc/sunOSConfig.properties";
+    public static final String CONFIGFILE_SUNOS
+                               = "/edu/stanford/ejalbert/launching/misc/sunOSConfig.properties";
 
     /**
      * Passes the logger and config file for SunOS to its
@@ -63,8 +64,8 @@ public class SunOSBrowserLaunching
      */
     public void openUrl(String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
         try {
             logger.info(urlString);
             // check system property which may contain user's preferred browser
@@ -77,15 +78,13 @@ public class SunOSBrowserLaunching
                 logger.info(
                         "browser pref defined in system prop. Failing over to super.openUrl() method");
                 super.openUrl(urlString);
-            }
-            // we should always have a default browser defined for
+            } // we should always have a default browser defined for
             // SunOS but if not, fail over to super class method
             else if (defBrowser == null) {
                 logger.info(
                         "no default browser defined. Failing over to super.openUrl() method");
                 super.openUrl(urlString);
-            }
-            else {
+            } else {
                 logger.info(defBrowser.getBrowserDisplayName());
                 int attemptId = browserEventCallback.getOpenAttemptId();
                 Process process = Runtime.getRuntime().exec(
@@ -98,8 +97,7 @@ public class SunOSBrowserLaunching
                         urlString);
                 process.waitFor();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new BrowserLaunchingExecutionException(e);
         }
     }

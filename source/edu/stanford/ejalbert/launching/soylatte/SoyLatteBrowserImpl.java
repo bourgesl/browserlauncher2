@@ -29,6 +29,7 @@ import net.sf.wraplog.AbstractLogger;
  */
 class SoyLatteBrowserImpl
         implements SoyLatteBrowser {
+
     /**
      * name of browser for user display
      */
@@ -67,8 +68,7 @@ class SoyLatteBrowserImpl
         this.argsForOpenBrowser = configItems[3];
         if (configItems.length == 5) {
             this.argsForForcedBrowserWindow = configItems[4];
-        }
-        else {
+        } else {
             this.argsForForcedBrowserWindow = configItems[2];
         }
     }
@@ -103,13 +103,12 @@ class SoyLatteBrowserImpl
     private String[] getCommandLineArgs(String argsString,
                                         String urlString) {
         argsString = LaunchingUtils.replaceArgs(argsString,
-                                                browserArgName,
-                                                urlString);
+                browserArgName,
+                urlString);
         return argsString.split("[ ]");
     }
 
     /* --------------------- from BrowserDescription --------------------- */
-
     /**
      * Returns the display name for the browser.
      *
@@ -129,7 +128,6 @@ class SoyLatteBrowserImpl
     }
 
     /* ------------ from SoyLatteBrowser ------------- */
-
     /**
      * Returns the command line arguments for addressing an already
      * open browser.
@@ -138,9 +136,9 @@ class SoyLatteBrowserImpl
      * @return String[]
      */
     public String[] getArgsForOpenBrowser(String urlString) {
-        String argsStartString = argsForOpenBrowser != null &&
-                                 argsForOpenBrowser.length() > 0 ?
-                                 argsForOpenBrowser : argsForStartBrowser;
+        String argsStartString = argsForOpenBrowser != null
+                && argsForOpenBrowser.length() > 0
+                ? argsForOpenBrowser : argsForStartBrowser;
         return getCommandLineArgs(argsStartString, urlString);
     }
 

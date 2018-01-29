@@ -36,6 +36,7 @@ package net.sf.wraplog;
  * @author Thomas Aglassinger
  */
 public class Level {
+
     /** Logging level for messages that usually are of no interest for the user. */
     public static final int DEBUG = 0;
 

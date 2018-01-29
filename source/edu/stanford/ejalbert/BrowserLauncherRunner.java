@@ -35,6 +35,7 @@ import java.util.List;
  */
 class BrowserLauncherRunner
         implements Runnable {
+
     private final List targetBrowsers; // in ctor
     private final String targetBrowser; // in ctor
     private final String url; // in ctor
@@ -111,7 +112,6 @@ class BrowserLauncherRunner
     }
 
     /* ------------------- from Runnable -------------------- */
-
     /**
      * When an object implementing interface <code>Runnable</code> is used to
      * create a thread, starting the thread causes the object's
@@ -126,17 +126,14 @@ class BrowserLauncherRunner
         try {
             if (targetBrowser != null) {
                 launcher.openUrl(targetBrowser,
-                                 url);
-            }
-            else if(targetBrowsers != null) {
+                        url);
+            } else if (targetBrowsers != null) {
                 launcher.openUrl(targetBrowsers,
-                                 url);
-            }
-            else {
+                        url);
+            } else {
                 launcher.openUrl(url);
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error("fatal error opening url", ex);
             errorHandler.handleException(ex);
         }

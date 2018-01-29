@@ -27,6 +27,7 @@ package edu.stanford.ejalbert.launching;
  * @version 1.0
  */
 public interface IBrowserEvent {
+
     public static final int ID_BROWSER_LAUNCHED = 1;
 
 }

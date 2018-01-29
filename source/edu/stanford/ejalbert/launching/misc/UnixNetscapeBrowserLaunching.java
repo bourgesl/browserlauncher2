@@ -49,11 +49,12 @@ import net.sf.wraplog.AbstractLogger;
  */
 public class UnixNetscapeBrowserLaunching
         implements IBrowserLaunching {
+
     /**
      * config file for linux/unix
      */
-    public static final String CONFIGFILE_LINUX_UNIX =
-            "/edu/stanford/ejalbert/launching/misc/linuxUnixConfig.properties";
+    public static final String CONFIGFILE_LINUX_UNIX
+                               = "/edu/stanford/ejalbert/launching/misc/linuxUnixConfig.properties";
     /**
      * map of supported unix/linux browsers. The map contains
      * displayName => StandardUnixBrowser mappings.
@@ -169,8 +170,7 @@ public class UnixNetscapeBrowserLaunching
             if (exitCode == 0) {
                 success = true;
             }
-        }
-        // Runtimes may throw InterruptedException
+        } // Runtimes may throw InterruptedException
         // want to catch every possible exception and wrap it
         catch (Exception e) {
             throw new BrowserLaunchingExecutionException(e);
@@ -179,7 +179,6 @@ public class UnixNetscapeBrowserLaunching
     }
 
     /* ---------------------- from IBrowserLaunching ----------------------- */
-
     /**
      * Registers the browser event call back with the launcher object.
      *
@@ -218,9 +217,8 @@ public class UnixNetscapeBrowserLaunching
                             configProps.getProperty(key));
                     if (browser.isBrowserAvailable(logger)) {
                         unixBrowsers.put(browser.getBrowserDisplayName(),
-                                         browser);
-                    }
-                    else {
+                                browser);
+                    } else {
                         if (potentialBrowserNames.length() > 0) {
                             potentialBrowserNames.append("; ");
                         }
@@ -237,8 +235,7 @@ public class UnixNetscapeBrowserLaunching
             }
             logger.info(unixBrowsers.keySet().toString());
             unixBrowsers = Collections.unmodifiableMap(unixBrowsers);
-        }
-        catch (IOException ioex) {
+        } catch (IOException ioex) {
             throw new BrowserLaunchingInitializingException(ioex);
         }
     }
@@ -251,8 +248,8 @@ public class UnixNetscapeBrowserLaunching
      */
     public void openUrl(String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
         try {
             logger.info(urlString);
             boolean success = false;
@@ -263,8 +260,8 @@ public class UnixNetscapeBrowserLaunching
                     IBrowserLaunching.BROWSER_SYSTEM_PROPERTY,
                     null);
             if (browserId != null) {
-                UnixBrowser unixBrowser =
-                        (UnixBrowser) unixBrowsers.get(browserId);
+                UnixBrowser unixBrowser
+                            = (UnixBrowser) unixBrowsers.get(browserId);
                 if (unixBrowser != null) {
                     // if user has preferred browser, place at start of list
                     unixBrowsersList.add(0, unixBrowser);
@@ -277,10 +274,9 @@ public class UnixNetscapeBrowserLaunching
             while (iter.hasNext() && !success) {
                 browser = (UnixBrowser) iter.next();
                 success = openUrlWithBrowser(browser,
-                                             urlString);
+                        urlString);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new BrowserLaunchingExecutionException(e);
         }
     }
@@ -299,17 +295,16 @@ public class UnixNetscapeBrowserLaunching
     public void openUrl(String browser,
                         String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
         UnixBrowser unixBrowser = (UnixBrowser) unixBrowsers.get(browser);
-        if (unixBrowser == null ||
-            IBrowserLaunching.BROWSER_DEFAULT.equals(browser)) {
+        if (unixBrowser == null
+                || IBrowserLaunching.BROWSER_DEFAULT.equals(browser)) {
             logger.debug("falling through to non-targetted openUrl");
             openUrl(urlString);
-        }
-        else {
+        } else {
             boolean success = openUrlWithBrowser(unixBrowser,
-                                                 urlString);
+                    urlString);
             if (!success) {
                 logger.debug(
                         "open browser failure, trying non-targetted openUrl");
@@ -337,13 +332,12 @@ public class UnixNetscapeBrowserLaunching
     public void openUrl(List browsers,
                         String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
         if (browsers == null || browsers.isEmpty()) {
             logger.debug("falling through to non-targetted openUrl");
             openUrl(urlString);
-        }
-        else {
+        } else {
             boolean success = false;
             Iterator iter = browsers.iterator();
             while (iter.hasNext() && !success) {
@@ -351,7 +345,7 @@ public class UnixNetscapeBrowserLaunching
                         iter.next());
                 if (unixBrowser != null) {
                     success = openUrlWithBrowser(unixBrowser,
-                                                 urlString);
+                            urlString);
                 }
             }
             if (!success) {

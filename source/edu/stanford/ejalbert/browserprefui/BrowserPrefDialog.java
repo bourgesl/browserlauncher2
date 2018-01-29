@@ -47,10 +47,11 @@ import edu.stanford.ejalbert.BrowserLauncher;
  */
 public class BrowserPrefDialog
         extends JDialog {
+
     private JList browserList = new JList();
     private String selectedBrowser = null;
-    private static final String UI_BUNDLE =
-            "edu.stanford.ejalbert.browserprefui.BrowserPrefs";
+    private static final String UI_BUNDLE
+                                = "edu.stanford.ejalbert.browserprefui.BrowserPrefs";
 
     public BrowserPrefDialog(Dialog owner,
                              BrowserLauncher launcher)
@@ -83,16 +84,16 @@ public class BrowserPrefDialog
         browserList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         // get selected browser from system prop
         String prefBrowser = System.getProperty(
-            BrowserLauncher.BROWSER_SYSTEM_PROPERTY,
-            null);
-        if(prefBrowser != null) {
+                BrowserLauncher.BROWSER_SYSTEM_PROPERTY,
+                null);
+        if (prefBrowser != null) {
             browserList.setSelectedValue(prefBrowser, true);
         }
         initGui(rbundle);
     }
 
     private void okButtonClicked() {
-        selectedBrowser = (String)browserList.getSelectedValue();
+        selectedBrowser = (String) browserList.getSelectedValue();
         dispose();
     }
 
@@ -118,7 +119,7 @@ public class BrowserPrefDialog
             }
         });
         // create panels
-        JPanel mainPanel = new JPanel(new BorderLayout(0,2));
+        JPanel mainPanel = new JPanel(new BorderLayout(0, 2));
         JPanel buttonsPanel = new JPanel();
         // format controls
         buttonsPanel.add(okButton);

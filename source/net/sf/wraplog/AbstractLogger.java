@@ -46,14 +46,12 @@ public abstract class AbstractLogger {
         String actualName;
         if (name == null) {
             actualName = "level";
-        }
-        else {
+        } else {
             actualName = name;
         }
         if ((logLevel < Level.DEBUG) || (logLevel > Level.ERROR)) {
             throw new IllegalArgumentException(actualName
-                                               +
-                    " must be one of: Level.DEBUG, Level.INFO, Level.WARN, Level.ERROR");
+                    + " must be one of: Level.DEBUG, Level.INFO, Level.WARN, Level.ERROR");
         }
     }
 
@@ -123,10 +121,9 @@ public abstract class AbstractLogger {
             try {
                 reallyLog(logLevel, message, error);
                 loggedMessageCount += 1;
-            }
-            catch (Exception error2) {
+            } catch (Exception error2) {
                 throw new LoggingException("cannot log message: " + message,
-                                           error2);
+                        error2);
             }
         }
     }
@@ -134,8 +131,7 @@ public abstract class AbstractLogger {
     public void setLevel(int newLevel) {
         if ((level >= Level.DEBUG) || (level <= Level.ERROR)) {
             level = newLevel;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException(
                     "newLevel must be one of: Level.DEBUG, Level.INFO, Level.WARN, Level.ERROR");
         }

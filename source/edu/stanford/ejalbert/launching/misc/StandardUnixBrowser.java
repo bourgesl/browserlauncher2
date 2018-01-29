@@ -34,6 +34,7 @@ import edu.stanford.ejalbert.launching.utils.LaunchingUtils;
  */
 class StandardUnixBrowser
         implements UnixBrowser {
+
     /**
      * name of browser for user display
      */
@@ -70,10 +71,9 @@ class StandardUnixBrowser
         this.browserArgName = configItems[1];
         this.argsForStartBrowser = configItems[2];
         this.argsForOpenBrowser = configItems[3];
-        if(configItems.length == 5) {
+        if (configItems.length == 5) {
             this.argsForForcedBrowserWindow = configItems[4];
-        }
-        else {
+        } else {
             this.argsForForcedBrowserWindow = configItems[2];
         }
     }
@@ -108,13 +108,12 @@ class StandardUnixBrowser
     private String[] getCommandLineArgs(String argsString,
                                         String urlString) {
         argsString = LaunchingUtils.replaceArgs(argsString,
-                                                browserArgName,
-                                                urlString);
+                browserArgName,
+                urlString);
         return argsString.split("[ ]");
     }
 
     /* --------------------- from BrowserDescription --------------------- */
-
     /**
      * Returns the display name for the browser.
      *
@@ -134,7 +133,6 @@ class StandardUnixBrowser
     }
 
     /* ------------------------- from UnixBrowser ------------------------ */
-
     /**
      * Returns the command line arguments for addressing an already
      * open browser.
@@ -143,9 +141,9 @@ class StandardUnixBrowser
      * @return String[]
      */
     public String[] getArgsForOpenBrowser(String urlString) {
-        String argsStartString = argsForOpenBrowser != null &&
-                                 argsForOpenBrowser.length() > 0 ?
-                                 argsForOpenBrowser : argsForStartBrowser;
+        String argsStartString = argsForOpenBrowser != null
+                && argsForOpenBrowser.length() > 0
+                ? argsForOpenBrowser : argsForStartBrowser;
         return getCommandLineArgs(argsStartString, urlString);
     }
 
@@ -173,28 +171,27 @@ class StandardUnixBrowser
     public boolean isBrowserAvailable(AbstractLogger logger) {
         boolean isAvailable = false;
         try {
-            Process process = Runtime.getRuntime().exec(new String[] {"which",
-                    browserArgName});
+            Process process = Runtime.getRuntime().exec(new String[]{"which",
+                                                                     browserArgName});
             InputStream errStream = process.getErrorStream();
             InputStream inStream = process.getInputStream();
             BufferedReader errIn
-                    = new BufferedReader(new InputStreamReader(errStream));
+                           = new BufferedReader(new InputStreamReader(errStream));
             BufferedReader in
-                    = new BufferedReader(new InputStreamReader(inStream));
+                           = new BufferedReader(new InputStreamReader(inStream));
             String whichOutput = in.readLine();
             String whichErrOutput = errIn.readLine();
             in.close();
             errIn.close();
-            if(whichOutput != null) {
+            if (whichOutput != null) {
                 logger.debug(whichOutput);
             }
-            if(whichErrOutput != null) {
+            if (whichErrOutput != null) {
                 logger.debug(whichErrOutput);
             }
-            isAvailable = whichOutput != null &&
-                          whichOutput.startsWith("/");
-        }
-        catch (IOException ex) {
+            isAvailable = whichOutput != null
+                    && whichOutput.startsWith("/");
+        } catch (IOException ex) {
             logger.error("io error executing which command", ex);
         }
         return isAvailable;

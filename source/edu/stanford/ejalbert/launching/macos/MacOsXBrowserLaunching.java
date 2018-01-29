@@ -38,6 +38,7 @@ import edu.stanford.ejalbert.launching.IBrowserLaunching;
  */
 public class MacOsXBrowserLaunching
         extends MacOsBrowserLaunching {
+
     private Object desktopObject;
     private Method openURL;
 
@@ -46,23 +47,21 @@ public class MacOsXBrowserLaunching
         try {
             Class desktopClass = Class.forName(
                     "java.awt.Desktop");
-            desktopObject = desktopClass.getMethod("getDesktop", (Class[])null).invoke(null, (Object[])null);
+            desktopObject = desktopClass.getMethod("getDesktop", (Class[]) null).invoke(null, (Object[]) null);
             openURL = desktopClass.getDeclaredMethod("browse",
-                    new Class[] {URI.class});
-        }
-        catch (Exception e) {
+                    new Class[]{URI.class});
+        } catch (Exception e) {
             throw new BrowserLaunchingInitializingException(e);
         }
     }
 
     public void openUrl(String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
         try {
-            openURL.invoke(desktopObject, new Object[] {new URI(urlString)});
-        }
-        catch (Exception e) {
+            openURL.invoke(desktopObject, new Object[]{new URI(urlString)});
+        } catch (Exception e) {
             throw new BrowserLaunchingExecutionException(e);
         }
     }

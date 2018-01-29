@@ -48,6 +48,7 @@ public class SystemLogger
 
     private SimpleDateFormat format = new SimpleDateFormat(
             "yyyy-MM-dd HH:mm:ss,SSS");
+
     /* (non-Javadoc)
      * @see edu.stanford.ejalbert.logging.Logger#log(int, java.lang.String, java.lang.Throwable)
      */
@@ -55,8 +56,7 @@ public class SystemLogger
         PrintStream stream;
         if (logLevel < Level.WARN) {
             stream = System.out;
-        }
-        else {
+        } else {
             stream = System.err;
         }
         if (message == null) {
@@ -68,7 +68,7 @@ public class SystemLogger
         String threadName = Thread.currentThread().getName();
         String dateAndTime = format.format(new Date());
         stream.println(dateAndTime + " [" + threadName + "] "
-                       + getLevelText(logLevel) + " " + message);
+                + getLevelText(logLevel) + " " + message);
         if (error != null) {
             error.printStackTrace(stream);
         }
@@ -81,17 +81,13 @@ public class SystemLogger
         String result;
         if (logLevel == Level.DEBUG) {
             result = "DEBUG";
-        }
-        else if (logLevel == Level.INFO) {
+        } else if (logLevel == Level.INFO) {
             result = "INFO ";
-        }
-        else if (logLevel == Level.WARN) {
+        } else if (logLevel == Level.WARN) {
             result = "WARN ";
-        }
-        else if (logLevel == Level.ERROR) {
+        } else if (logLevel == Level.ERROR) {
             result = "ERROR";
-        }
-        else {
+        } else {
             throw new IllegalArgumentException(
                     "logLevel must be one of those defined in net.sf.warplog.Level, but is "
                     + logLevel);

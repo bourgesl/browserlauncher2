@@ -61,21 +61,19 @@ public class MacOs2_0BrowserLaunching
             Class aeClass = Class.forName("com.apple.MacOS.ae");
             aeDescClass = Class.forName("com.apple.MacOS.AEDesc");
 
-            aeTargetConstructor = aeTargetClass.getDeclaredConstructor(new
-                    Class[] {int.class});
-            appleEventConstructor =
-                    appleEventClass.getDeclaredConstructor(
-                            new Class[] {int.class, int.class, aeTargetClass, int.class, int.class});
-            aeDescConstructor = aeDescClass.getDeclaredConstructor(new Class[] {
-                    String.class});
+            aeTargetConstructor = aeTargetClass.getDeclaredConstructor(new Class[]{int.class});
+            appleEventConstructor
+            = appleEventClass.getDeclaredConstructor(
+                            new Class[]{int.class, int.class, aeTargetClass, int.class, int.class});
+            aeDescConstructor = aeDescClass.getDeclaredConstructor(new Class[]{
+                String.class});
 
             makeOSType = osUtilsClass.getDeclaredMethod("makeOSType",
-                    new Class[] {String.class});
+                    new Class[]{String.class});
             putParameter = appleEventClass.getDeclaredMethod("putParameter",
-                    new Class[] {int.class, aeDescClass});
+                    new Class[]{int.class, aeDescClass});
             sendNoReply = appleEventClass.getDeclaredMethod("sendNoReply",
-                    new Class[] {
-            });
+                    new Class[]{});
 
             Field keyDirectObjectField = aeClass.getDeclaredField(
                     "keyDirectObject");
@@ -86,8 +84,7 @@ public class MacOs2_0BrowserLaunching
             Field anyTransactionIDField = appleEventClass.getDeclaredField(
                     "kAnyTransactionID");
             kAnyTransactionID = (Integer) anyTransactionIDField.get(null);
-        }
-        catch (Exception cnfe) {
+        } catch (Exception cnfe) {
             throw new BrowserLaunchingInitializingException(cnfe);
         }
     }
@@ -96,43 +93,39 @@ public class MacOs2_0BrowserLaunching
             throws BrowserLaunchingInitializingException {
         try {
             Integer finderCreatorCode = (Integer) makeOSType.invoke(null,
-                    new Object[] {FINDER_CREATOR});
-            Object aeTarget = aeTargetConstructor.newInstance(new Object[] {
-                    finderCreatorCode});
+                    new Object[]{FINDER_CREATOR});
+            Object aeTarget = aeTargetConstructor.newInstance(new Object[]{
+                finderCreatorCode});
             Integer gurlType = (Integer) makeOSType.invoke(null,
-                    new Object[] {GURL_EVENT});
-            Object appleEvent =
-                    appleEventConstructor.newInstance(
-                            new Object[] {gurlType, gurlType, aeTarget,
-                            kAutoGenerateReturnID, kAnyTransactionID});
+                    new Object[]{GURL_EVENT});
+            Object appleEvent
+                   = appleEventConstructor.newInstance(
+                            new Object[]{gurlType, gurlType, aeTarget,
+                                         kAutoGenerateReturnID, kAnyTransactionID});
             // Don't set browser = appleEvent because then the next time we call
             // locateBrowser(), we'll get the same AppleEvent, to which we'll already have
             // added the relevant parameter. Instead, regenerate the AppleEvent every time.
             // There's probably a way to do this better; if any has any ideas, please let
             // me know.
             return appleEvent;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new BrowserLaunchingInitializingException(e);
         }
     }
 
     public void openUrl(String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
         Object browser = getBrowser();
         Object aeDesc = null;
         try {
-            aeDesc = aeDescConstructor.newInstance(new Object[] {urlString});
-            putParameter.invoke(browser, new Object[] {keyDirectObject, aeDesc});
-            sendNoReply.invoke(browser, new Object[] {
-            });
-        }
-        catch (Exception e) {
+            aeDesc = aeDescConstructor.newInstance(new Object[]{urlString});
+            putParameter.invoke(browser, new Object[]{keyDirectObject, aeDesc});
+            sendNoReply.invoke(browser, new Object[]{});
+        } catch (Exception e) {
             throw new BrowserLaunchingExecutionException(e);
-        }
-        finally {
+        } finally {
             //TODO Oct 10, 2003 (Markus Gebhard): Unnecessary, because local variables - isn't it?
             aeDesc = null; // Encourage it to get disposed if it was created
             browser = null; // Ditto

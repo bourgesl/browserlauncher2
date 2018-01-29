@@ -39,14 +39,14 @@ import edu.stanford.ejalbert.launching.IBrowserLaunching;
 import net.sf.wraplog.AbstractLogger;
 import edu.stanford.ejalbert.launching.IBrowserEventCallBack;
 
-
 public class SoyLatteBrowserLaunching
         implements IBrowserLaunching {
+
     /**
      * config file for linux/unix
      */
-    public static final String CONFIGFILE_SOYLATTE =
-            "/edu/stanford/ejalbert/launching/soylatte/soylatteConfig.properties";
+    public static final String CONFIGFILE_SOYLATTE
+                               = "/edu/stanford/ejalbert/launching/soylatte/soylatteConfig.properties";
     /**
      * map of supported browsers. The map contains
      * displayName => SoyLatteBrowser mappings.
@@ -135,8 +135,7 @@ public class SoyLatteBrowserLaunching
             if (exitCode == 0) {
                 success = true;
             }
-        }
-        // Runtimes may throw InterruptedException
+        } // Runtimes may throw InterruptedException
         // want to catch every possible exception and wrap it
         catch (Exception e) {
             throw new BrowserLaunchingExecutionException(e);
@@ -145,7 +144,6 @@ public class SoyLatteBrowserLaunching
     }
 
     /* ---------------------- from IBrowserLaunching ----------------------- */
-
     /**
      * Registers the browser event call back with the launcher object.
      *
@@ -184,9 +182,8 @@ public class SoyLatteBrowserLaunching
                             configProps.getProperty(key));
                     if (browser.isBrowserAvailable(logger)) {
                         soylatteBrowsers.put(browser.getBrowserDisplayName(),
-                                             browser);
-                    }
-                    else {
+                                browser);
+                    } else {
                         if (potentialBrowserNames.length() > 0) {
                             potentialBrowserNames.append("; ");
                         }
@@ -203,8 +200,7 @@ public class SoyLatteBrowserLaunching
             }
             logger.info(soylatteBrowsers.keySet().toString());
             soylatteBrowsers = Collections.unmodifiableMap(soylatteBrowsers);
-        }
-        catch (IOException ioex) {
+        } catch (IOException ioex) {
             throw new BrowserLaunchingInitializingException(ioex);
         }
     }
@@ -217,8 +213,8 @@ public class SoyLatteBrowserLaunching
      */
     public void openUrl(String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
         try {
             logger.info(urlString);
             boolean success = false;
@@ -229,8 +225,8 @@ public class SoyLatteBrowserLaunching
                     IBrowserLaunching.BROWSER_SYSTEM_PROPERTY,
                     null);
             if (browserId != null) {
-                SoyLatteBrowser slBrowser =
-                        (SoyLatteBrowser) soylatteBrowsers.get(browserId);
+                SoyLatteBrowser slBrowser
+                                = (SoyLatteBrowser) soylatteBrowsers.get(browserId);
                 if (slBrowser != null) {
                     // if user has preferred browser, place at start of list
                     slBrowsersList.add(0, slBrowser);
@@ -243,10 +239,9 @@ public class SoyLatteBrowserLaunching
             while (iter.hasNext() && !success) {
                 browser = (SoyLatteBrowser) iter.next();
                 success = openUrlWithBrowser(browser,
-                                             urlString);
+                        urlString);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new BrowserLaunchingExecutionException(e);
         }
     }
@@ -265,17 +260,16 @@ public class SoyLatteBrowserLaunching
     public void openUrl(String browser,
                         String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
         SoyLatteBrowser slBrowser = (SoyLatteBrowser) soylatteBrowsers.get(browser);
-        if (slBrowser == null ||
-            IBrowserLaunching.BROWSER_DEFAULT.equals(browser)) {
+        if (slBrowser == null
+                || IBrowserLaunching.BROWSER_DEFAULT.equals(browser)) {
             logger.debug("falling through to non-targetted openUrl");
             openUrl(urlString);
-        }
-        else {
+        } else {
             boolean success = openUrlWithBrowser(slBrowser,
-                                                 urlString);
+                    urlString);
             if (!success) {
                 logger.debug(
                         "open browser failure, trying non-targetted openUrl");
@@ -303,13 +297,12 @@ public class SoyLatteBrowserLaunching
     public void openUrl(List browsers,
                         String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
         if (browsers == null || browsers.isEmpty()) {
             logger.debug("falling through to non-targetted openUrl");
             openUrl(urlString);
-        }
-        else {
+        } else {
             boolean success = false;
             Iterator iter = browsers.iterator();
             while (iter.hasNext() && !success) {
@@ -317,7 +310,7 @@ public class SoyLatteBrowserLaunching
                         iter.next());
                 if (slBrowser != null) {
                     success = openUrlWithBrowser(slBrowser,
-                                                 urlString);
+                            urlString);
                 }
             }
             if (!success) {

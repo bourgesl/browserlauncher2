@@ -37,6 +37,7 @@ import net.sf.wraplog.Level;
  */
 class TestAppLogger
         extends AbstractLogger {
+
     private JTextArea debugTextArea; // in ctor
     private String[] levelText; // in ctor
     private SimpleDateFormat format; // in ctor =
@@ -74,7 +75,7 @@ class TestAppLogger
         String threadName = Thread.currentThread().getName();
         String dateAndTime = format.format(new Date());
         printWriter.println(dateAndTime + " [" + threadName + "] "
-                            + getLevelText(logLevel) + " " + message);
+                + getLevelText(logLevel) + " " + message);
         if (error != null) {
             error.printStackTrace(printWriter);
         }
@@ -99,8 +100,7 @@ class TestAppLogger
             throw new IllegalArgumentException(
                     "logLevel must be one of those defined in net.sf.warplog.Level, but is "
                     + Integer.toString(logLevel));
-        }
-        else {
+        } else {
             return levelText[logLevel];
         }
     }

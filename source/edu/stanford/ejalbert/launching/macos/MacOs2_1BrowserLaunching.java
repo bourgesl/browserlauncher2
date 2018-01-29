@@ -62,13 +62,12 @@ public class MacOs2_1BrowserLaunching
                     "kSystemFolderType");
             kSystemFolderType = systemFolderField.get(null);
             findFolder = mrjFileUtilsClass.getDeclaredMethod("findFolder",
-                    new Class[] {mrjOSTypeClass});
+                    new Class[]{mrjOSTypeClass});
             getFileCreator = mrjFileUtilsClass.getDeclaredMethod(
-                    "getFileCreator", new Class[] {File.class});
+                    "getFileCreator", new Class[]{File.class});
             getFileType = mrjFileUtilsClass.getDeclaredMethod("getFileType",
-                    new Class[] {File.class});
-        }
-        catch (Exception e) {
+                    new Class[]{File.class});
+        } catch (Exception e) {
             throw new BrowserLaunchingInitializingException(e);
         }
     }
@@ -82,9 +81,8 @@ public class MacOs2_1BrowserLaunching
         File systemFolder;
         try {
             systemFolder = (File) findFolder.invoke(null,
-                    new Object[] {kSystemFolderType});
-        }
-        catch (Exception e) {
+                    new Object[]{kSystemFolderType});
+        } catch (Exception e) {
             throw new BrowserLaunchingInitializingException(e);
         }
         String[] systemFolderFiles = systemFolder.list();
@@ -100,17 +98,16 @@ public class MacOs2_1BrowserLaunching
                 // applications being picked up on certain Mac OS 9 systems,
                 // especially German ones, and sending a GURL event to those
                 // applications results in a logout under Multiple Users.
-                Object fileType = getFileType.invoke(null, new Object[] {file});
+                Object fileType = getFileType.invoke(null, new Object[]{file});
                 if (FINDER_TYPE.equals(fileType.toString())) {
                     Object fileCreator = getFileCreator.invoke(null,
-                            new Object[] {file});
+                            new Object[]{file});
                     if (FINDER_CREATOR.equals(fileCreator.toString())) {
                         browser = file.toString(); // Actually the Finder, but that's OK
                         return browser;
                     }
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 throw new BrowserLaunchingInitializingException(e);
             }
         }
@@ -119,13 +116,12 @@ public class MacOs2_1BrowserLaunching
 
     public void openUrl(String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
         String browser = getBrowser();
         try {
-            Runtime.getRuntime().exec(new String[] {browser, urlString});
-        }
-        catch (IOException e) {
+            Runtime.getRuntime().exec(new String[]{browser, urlString});
+        } catch (IOException e) {
             throw new BrowserLaunchingExecutionException(e);
         }
     }

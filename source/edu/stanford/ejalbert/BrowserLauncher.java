@@ -96,6 +96,7 @@ import net.sf.wraplog.NoneLogger;
  */
 public class BrowserLauncher
         implements IBrowserEventCallBack {
+
     /**
      * Key to system property containing name of users
      * preferred browser.
@@ -103,8 +104,8 @@ public class BrowserLauncher
      * The value is defined in IBrowserLaunching but exposed for
      * general API usage from the BrowserLauncher class.
      */
-    public static final String BROWSER_SYSTEM_PROPERTY =
-            IBrowserLaunching.BROWSER_SYSTEM_PROPERTY;
+    public static final String BROWSER_SYSTEM_PROPERTY
+                               = IBrowserLaunching.BROWSER_SYSTEM_PROPERTY;
     /**
      * Key to system property that controls how browsers are discovered
      * when running on a Windows O/S. The values are registry and disk.
@@ -112,31 +113,31 @@ public class BrowserLauncher
      * The value is defined in IBrowserLaunching but exposed for
      * general API usage from the BrowserLauncher class.
      */
-    public static final String WINDOWS_BROWSER_DISC_POLICY_PROPERTY =
-            IBrowserLaunching.WINDOWS_BROWSER_DISC_POLICY_PROPERTY;
+    public static final String WINDOWS_BROWSER_DISC_POLICY_PROPERTY
+                               = IBrowserLaunching.WINDOWS_BROWSER_DISC_POLICY_PROPERTY;
     /**
      * Value associated with WINDOWS_BROWSER_DISC_POLICY_PROPERTY.
      * <p>
      * The value is defined in IBrowserLaunching but exposed for
      * general API usage from the BrowserLauncher class.
      */
-    public static final String WINDOWS_BROWSER_DISC_POLICY_DISK =
-            IBrowserLaunching.WINDOWS_BROWSER_DISC_POLICY_DISK;
+    public static final String WINDOWS_BROWSER_DISC_POLICY_DISK
+                               = IBrowserLaunching.WINDOWS_BROWSER_DISC_POLICY_DISK;
     /**
      * Value associated with WINDOWS_BROWSER_DISC_POLICY_PROPERTY.
      * <p>
      * The value is defined in IBrowserLaunching but exposed for
      * general API usage from the BrowserLauncher class.
      */
-    public static final String WINDOWS_BROWSER_DISC_POLICY_REGISTRY =
-            IBrowserLaunching.WINDOWS_BROWSER_DISC_POLICY_REGISTRY;
+    public static final String WINDOWS_BROWSER_DISC_POLICY_REGISTRY
+                               = IBrowserLaunching.WINDOWS_BROWSER_DISC_POLICY_REGISTRY;
 
     private final IBrowserLaunching launching; // in ctor
     private AbstractLogger logger; // in init method
     private BrowserLauncherErrorHandler errorHandler; // in ctor
     private final Set browserEventListeners = new HashSet();
     private String userName; // in ctor
-    private static final Integer attemptIdLock = new Integer(0);
+    private static final Integer attemptIdLock = Integer.valueOf(0);
     private static int attemptIdValue = 0;
 
     /**
@@ -158,7 +159,7 @@ public class BrowserLauncher
      */
     public BrowserLauncher()
             throws BrowserLaunchingInitializingException,
-            UnsupportedOperatingSystemException {
+                   UnsupportedOperatingSystemException {
         this(null, null);
     }
 
@@ -182,7 +183,7 @@ public class BrowserLauncher
      */
     public BrowserLauncher(AbstractLogger logger)
             throws BrowserLaunchingInitializingException,
-            UnsupportedOperatingSystemException {
+                   UnsupportedOperatingSystemException {
         this(logger, null);
     }
 
@@ -209,7 +210,7 @@ public class BrowserLauncher
     public BrowserLauncher(AbstractLogger logger,
                            BrowserLauncherErrorHandler errorHandler)
             throws BrowserLaunchingInitializingException,
-            UnsupportedOperatingSystemException {
+                   UnsupportedOperatingSystemException {
         this.userName = System.getProperty("user.name");
         // assign logger or use default
         if (logger == null) {
@@ -240,13 +241,13 @@ public class BrowserLauncher
      */
     private IBrowserLaunching initBrowserLauncher()
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingInitializingException {
         if (logger == null) {
             throw new IllegalArgumentException(
                     "the logger cannot be null at this point.");
         }
-        IBrowserLaunching launching =
-                BrowserLaunchingFactory.createSystemBrowserLaunching(logger);
+        IBrowserLaunching launching
+                          = BrowserLaunchingFactory.createSystemBrowserLaunching(logger);
         launching.setBrowserEventCallBack(this);
         launching.initialize();
         return launching;
@@ -263,8 +264,8 @@ public class BrowserLauncher
      */
     public static void openURL(String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
         BrowserLauncher launcher = new BrowserLauncher(null);
         launcher.openURLinBrowser(urlString);
     }
@@ -279,16 +280,13 @@ public class BrowserLauncher
     public static void main(String[] args) {
         if (args.length == 0) {
             System.err.println("Usage: java -jar BrowserLauncher.jar url_value");
-        }
-        else {
+        } else {
             try {
                 BrowserLauncher launcher = new BrowserLauncher(null);
                 launcher.openURLinBrowser(args[0]);
-            }
-            catch (BrowserLaunchingInitializingException ex) {
+            } catch (BrowserLaunchingInitializingException ex) {
                 ex.printStackTrace();
-            }
-            //catch (BrowserLaunchingExecutionException ex) {
+            } //catch (BrowserLaunchingExecutionException ex) {
             //    ex.printStackTrace();
             // }
             catch (UnsupportedOperatingSystemException ex) {
@@ -298,10 +296,9 @@ public class BrowserLauncher
     }
 
     /* -------------- from IBrowserEventCallBack ----======--- */
-
     public int getOpenAttemptId() {
         int id;
-        synchronized(attemptIdLock) {
+        synchronized (attemptIdLock) {
             id = attemptIdValue++;
         }
         return id;
@@ -313,28 +310,25 @@ public class BrowserLauncher
                                  String browserName,
                                  String urlLaunched) {
         BrowserEvent bevent = new BrowserEvent(id,
-                                               attemptId,
-                                               proc,
-                                               userName,
-                                               browserName,
-                                               urlLaunched);
+                attemptId,
+                proc,
+                userName,
+                browserName,
+                urlLaunched);
         BrowserEventListener[] listeners = null;
         int lcnt = 0;
         synchronized (browserEventListeners) {
             lcnt = browserEventListeners.size();
-            listeners = (BrowserEventListener[]) browserEventListeners.toArray(new
-                    BrowserEventListener[lcnt]);
+            listeners = (BrowserEventListener[]) browserEventListeners.toArray(new BrowserEventListener[lcnt]);
         }
 
         // maybe put this into a different thread??
-
         for (int idx = 0; idx < lcnt; idx++) {
             listeners[idx].handleBrowserEvent(bevent);
         }
     }
 
     /* ---------------------- API Methods -------------------- */
-
     public void addBrowserEventListener(BrowserEventListener listener) {
         if (listener != null) {
             synchronized (browserEventListeners) {

@@ -9,6 +9,8 @@ import edu.stanford.ejalbert.browserevents.BrowserEvent;
  * @version 1.0
  */
 public interface IBrowserCloser extends BrowserEventListener {
+
     public BrowserEvent[] getBrowserEvents();
+
     public void closeBrowser(BrowserEvent event);
 }

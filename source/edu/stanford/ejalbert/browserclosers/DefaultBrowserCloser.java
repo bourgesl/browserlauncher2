@@ -12,6 +12,7 @@ import edu.stanford.ejalbert.browserevents.BrowserEvent;
  */
 public abstract class DefaultBrowserCloser
         implements IBrowserCloser {
+
     private final Map browserEvents = new HashMap();
 
     public DefaultBrowserCloser() {
@@ -20,10 +21,9 @@ public abstract class DefaultBrowserCloser
     protected abstract void killBrowser(BrowserEvent event);
 
     /* --------------- from BrowserEventListener -------------- */
-
     public void handleBrowserEvent(BrowserEvent event) {
         if (BrowserEvent.ID_BROWSER_LAUNCHED == event.getEventId()) {
-            Integer key = new Integer(event.getAttemptId());
+            Integer key = Integer.valueOf(event.getAttemptId());
             synchronized (browserEvents) {
                 browserEvents.put(key, event);
             }
@@ -31,7 +31,6 @@ public abstract class DefaultBrowserCloser
     }
 
     /* ------------------ from IBrowserCloser ----------------- */
-
     public BrowserEvent[] getBrowserEvents() {
         int cnt = 0;
         BrowserEvent[] events = null;
@@ -44,13 +43,13 @@ public abstract class DefaultBrowserCloser
     }
 
     public void closeBrowser(BrowserEvent event) {
-        if(event != null) {
-            Integer key = new Integer(event.getAttemptId());
+        if (event != null) {
+            Integer key = Integer.valueOf(event.getAttemptId());
             BrowserEvent bevent = null;
-            synchronized(browserEvents) {
-                bevent = (BrowserEvent)browserEvents.remove(key);
+            synchronized (browserEvents) {
+                bevent = (BrowserEvent) browserEvents.remove(key);
             }
-            if(bevent != null) {
+            if (bevent != null) {
                 killBrowser(bevent);
             }
         }

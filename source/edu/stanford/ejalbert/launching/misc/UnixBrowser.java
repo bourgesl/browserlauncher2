@@ -30,6 +30,7 @@ import net.sf.wraplog.AbstractLogger;
  */
 public interface UnixBrowser
         extends BrowserDescription {
+
     /**
      * Returns the command line arguments for addressing an already
      * open browser.
@@ -49,7 +50,6 @@ public interface UnixBrowser
     public String[] getArgsForStartingBrowser(String url);
 
     public String[] getArgsForForcingNewBrowserWindow(String url);
-
 
     /**
      * Returns true if the browser is available on the user's system..

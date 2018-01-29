@@ -34,6 +34,7 @@ import edu.stanford.ejalbert.launching.IBrowserEventCallBack;
  */
 public abstract class MacOsBrowserLaunching
         implements IBrowserLaunching {
+
     /**
      * new window policy to apply when opening a url. If true,
      * try to force url into a new browser instance/window.
@@ -47,7 +48,6 @@ public abstract class MacOsBrowserLaunching
     protected static final String FINDER_CREATOR = "MACS";
 
     /* ---------------- from IBrowserLaunching ---------------- */
-
     /**
      * Registers the browser event call back with the launcher object.
      *
@@ -70,8 +70,8 @@ public abstract class MacOsBrowserLaunching
     public void openUrl(String browser,
                         String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
         openUrl(urlString);
     }
 
@@ -88,8 +88,8 @@ public abstract class MacOsBrowserLaunching
     public void openUrl(List browsers,
                         String urlString)
             throws UnsupportedOperatingSystemException,
-            BrowserLaunchingExecutionException,
-            BrowserLaunchingInitializingException {
+                   BrowserLaunchingExecutionException,
+                   BrowserLaunchingInitializingException {
         openUrl(urlString);
     }
 

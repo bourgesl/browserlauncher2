@@ -59,8 +59,7 @@ public class BrowserLaunchingFactory {
         String osName = System.getProperty("os.name");
         if (osName.contains("OS X")) {
             return new MacOsXBrowserLaunching();
-        }
-        else if (osName.startsWith("Mac OS")) {
+        } else if (osName.startsWith("Mac OS")) {
             logger.info("Mac OS");
             String mrjVersion = System.getProperty("mrj.version");
             String majorMRJVersion = mrjVersion.substring(0, 3);
@@ -69,65 +68,53 @@ public class BrowserLaunchingFactory {
                 logger.info("version=" + Double.toString(version));
                 if (version == 2) {
                     return new MacOs2_0BrowserLaunching();
-                }
-                else if (version >= 2.1 && version < 3) {
+                } else if (version >= 2.1 && version < 3) {
                     // Assume that all 2.x versions of MRJ work the same.  MRJ 2.1 actually
                     // works via Runtime.exec() and 2.2 supports that but has an openURL() method
                     // as well that we currently ignore.
                     return new MacOs2_1BrowserLaunching();
-                }
-                else if (version == 3.0) {
+                } else if (version == 3.0) {
                     return new MacOs3_0BrowserLaunching();
-                }
-                else if (version >= 3.1) {
+                } else if (version >= 3.1) {
                     // Assume that all 3.1 and later versions of MRJ work the same.
                     return new MacOs3_1BrowserLaunching();
-                }
-                else {
+                } else {
                     throw new UnsupportedOperatingSystemException(
                             "Unsupported MRJ version: " + version);
                 }
-            }
-            catch (NumberFormatException nfe) {
+            } catch (NumberFormatException nfe) {
                 throw new UnsupportedOperatingSystemException(
                         "Invalid MRJ version: " + mrjVersion);
             }
-        }
-        else if (osName.startsWith("Windows")) {
+        } else if (osName.startsWith("Windows")) {
             logger.info("Windows OS");
-            if (osName.indexOf("9") != -1 ||
-                osName.indexOf("Windows Me") != -1) {
+            if (osName.indexOf("9") != -1
+                    || osName.indexOf("Windows Me") != -1) {
                 return new WindowsBrowserLaunching(
                         logger,
                         WindowsBrowserLaunching.WINKEY_WIN9X);
-            }
-            else if(osName.indexOf("Vista") != -1) {
+            } else if (osName.indexOf("Vista") != -1) {
                 return new WindowsBrowserLaunching(
                         logger,
                         WindowsBrowserLaunching.WINKEY_WINVISTA);
-            }
-            else if (osName.indexOf("2000") != -1 ||
-                     osName.indexOf("XP") != -1) {
+            } else if (osName.indexOf("2000") != -1
+                    || osName.indexOf("XP") != -1) {
                 return new WindowsBrowserLaunching(
                         logger,
                         WindowsBrowserLaunching.WINKEY_WIN2000);
-            }
-            else {
+            } else {
                 return new WindowsBrowserLaunching(
                         logger,
                         WindowsBrowserLaunching.WINKEY_WINNT);
             }
-        }
-        // SoyLatte running under a Mac OS X platform.
+        } // SoyLatte running under a Mac OS X platform.
         else if (osName.startsWith("Darwin")) {
             logger.info("Darwin");
             return new SoyLatteBrowserLaunching(logger);
-        }
-        else if (osName.startsWith("SunOS")) {
+        } else if (osName.startsWith("SunOS")) {
             logger.info("SunOS");
             return new SunOSBrowserLaunching(logger);
-        }
-        else {
+        } else {
             logger.info("Unix-type OS");
             return new UnixNetscapeBrowserLaunching(
                     logger,
